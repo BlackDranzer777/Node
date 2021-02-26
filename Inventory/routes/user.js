@@ -10,6 +10,7 @@ const userController = require('../controllers/user/user');
 const restaurantController = require('../controllers/user/restaurant');
 const outletController = require('../controllers/user/outlet');
 const employeeController = require('../controllers/user/employee');
+const customerController = require('../controllers/user/customer');
 //middleware
 const verifyTokenMiddleWare = require('../middlewares/verifyToken');
 
@@ -85,5 +86,19 @@ router.post('/employee/update', employeeController.postUpdateEmployee);
 
 //DELETE Request
 router.delete('/employee/delete/:employee_id', employeeController.deleteDeleteEmployee);
+
+
+/* === Customer Routes === */
+router.post('/customer/new', customerController.postNewCustomer); 
+
+router.post('/customer/fetchall/outlet/:outlet_id', customerController.postFetchCustomerByOutlet);
+
+router.post('/customer/fetchall/customer/:customer_id', customerController.postFetchCustomerByCustomerID);
+
+router.post('/customer/update', customerController.postUpdateCustomer);
+
+//DELETE Request
+router.delete('/customer/delete/:employee_id', customerController.deleteDeleteCustomer);
+
 
 module.exports = router;

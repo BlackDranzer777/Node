@@ -8,11 +8,11 @@ const Customer = sequelize.define('customer',{
         allowNull : false,
         primaryKey : true
     },
-    name : {
+    customer_name : {
         type : Sequelize.STRING,
         isUnique : true,
     },
-    email : {
+    customer_email : {
         type : Sequelize.STRING,
         isUnique : true,
         validate : {
@@ -20,12 +20,12 @@ const Customer = sequelize.define('customer',{
         },
         allowNull : true
     },
-    phone_number : {
+    customer_phone : {
         type : Sequelize.STRING,
         isUnique : true,
         allowNull : true
     },
-    category : {
+    customer_category : {
         type : Sequelize.STRING,
         isUnique : true,
         allowNull : false,

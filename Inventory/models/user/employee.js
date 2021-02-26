@@ -21,7 +21,10 @@ const Employee = sequelize.define('employee',{
         type : Sequelize.INTEGER,
     },
     gender : {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate : {
+            isIn : [['male','female']]
+        }
     },
     employee_dob : {
         type : Sequelize.DATE

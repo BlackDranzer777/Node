@@ -9,6 +9,7 @@ const menuController = require('../controllers/user/menu');
 const userController = require('../controllers/user/user');
 const restaurantController = require('../controllers/user/restaurant');
 const outletController = require('../controllers/user/outlet');
+const employeeController = require('../controllers/user/employee');
 //middleware
 const verifyTokenMiddleWare = require('../middlewares/verifyToken');
 
@@ -74,5 +75,15 @@ router.post('/outlet/update', outletController.postUpdateOutlet);
 //DELETE Request
 router.delete('/outlet/delete/:outlet_id', outletController.deleteDeleteOutlet);
 
+
+/* === Employee Routes === */
+router.post('/employee/new', employeeController.postNewEmployee); //tested
+
+router.post('/employee/fetchall', employeeController.postFetchEmployee); //tested
+
+router.post('/employee/update', employeeController.postUpdateEmployee);
+
+//DELETE Request
+router.delete('/employee/delete/:employee_id', employeeController.deleteDeleteEmployee);
 
 module.exports = router;

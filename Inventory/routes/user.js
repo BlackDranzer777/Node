@@ -98,7 +98,7 @@ router.post('/customer/fetchall/customer/:customer_id', customerController.postF
 router.post('/customer/update', customerController.postUpdateCustomer);
 
 //DELETE Request
-router.delete('/customer/delete/:employee_id', customerController.deleteDeleteCustomer);
+router.delete('/customer/delete/:customer_id', customerController.deleteDeleteCustomer);
 
 
 module.exports = router;

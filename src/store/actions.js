@@ -1,0 +1,6 @@
+export const ADD = 'ADD'
+export const DELETE = 'DELETE'
+export const INCREMENT = 'INCREMENT'
+export const DECREMENT = 'DECREMENT'
+export const SETSEARCH = 'SETSEARCH'
+export const SETCATEGORY = 'SETCATEGORY'

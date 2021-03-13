@@ -17,8 +17,8 @@ const Employee = sequelize.define('employee',{
         type : Sequelize.STRING,
         allowNull : false 
     },
-    age : {
-        type : Sequelize.INTEGER,
+    email : {
+        type : Sequelize.STRING
     },
     gender : {
         type: Sequelize.STRING,
@@ -28,6 +28,9 @@ const Employee = sequelize.define('employee',{
     },
     employee_dob : {
         type : Sequelize.DATE
+    },
+    employee_address : {
+        type : Sequelize.STRING
     },
     category : {
         type : Sequelize.STRING,

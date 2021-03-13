@@ -8,7 +8,7 @@ const crypto = require('crypto');
 //Models
 const User = require('../../models/user/user');
 const Customer = require('../../models/user/customer');
-const { stat } = require('fs');
+const { stat, access } = require('fs');
 
 
 //API's
@@ -104,12 +104,13 @@ exports.postLogin = (req, res, next) => {
         // console.log(result);
         // const email = result.dataValues['email'];
         // console.log(email);
+        console.log(email)
         const accessToken = generateToken(email);
-        const refreshToken = jwt.sign(email, 'refreshkey');
+        // const refreshToken = jwt.sign(email, 'refreshkey');
 
         //Query
         User.update({
-            token: refreshToken,
+            token: accessToken,
             status: "Active"
           }, {
             where: {
@@ -117,7 +118,8 @@ exports.postLogin = (req, res, next) => {
             }
         });
         // return res.json("nbk");
-        return res.json({accessToken : accessToken, refreshToken : refreshToken});
+        // return res.json({accessToken : accessToken, refreshToken : refreshToken});
+        return res.json({accessToken : accessToken});
     }).catch(err => {
         return res.json({message : "login credentials didn't match"});
     });
@@ -151,7 +153,7 @@ exports.postRefreshToken = (req,res, next) => {
 
 //Functions
 const generateToken = (userid) => {
-    return jwt.sign({userid : userid}, 'accesskey',  {expiresIn : '30s'});
+    return jwt.sign({userid : userid}, 'accesskey',  {expiresIn : '7d'});
 }
 
 

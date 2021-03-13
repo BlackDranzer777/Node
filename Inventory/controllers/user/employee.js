@@ -9,17 +9,21 @@ exports.postNewEmployee = (req, res, next) => {
     const employee_id = uuidv4();
     const employee_name = req.body.employee_name;
     const phone = req.body.phone;
-    const age = req.body.age;
+    // const age = req.body.age;
+    const email = req.bodey.email;
     const gender = req.body.gender;
     const employee_dob = req.body.employee_dob;
     const category = req.body.category;
     const outlet_id = req.body.outlet_id;
+    const employee_address = req.body.employee_address;
     console.log("req.body ===> ",req.body);
     Employee.create({
         employee_id : employee_id,
         employee_name : employee_name,
         phone : phone,
-        age : age,
+        // age : age,
+        email : email,
+        employee_address : employee_address,
         gender : gender,
         employee_dob : employee_dob,
         category : category,

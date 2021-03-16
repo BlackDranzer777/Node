@@ -41,9 +41,9 @@ exports.postCreateUser = (req, res, next) => {
         status : status,
         token : token
     }).then(result => {
-        return res.json({message : "Registration was succefully done"});
+        return res.status(201).json({message : "registration was succesfull"});
     }).catch(err => {
-        return res.json({message : "Registration was unsuccefull"});
+        return res.json({message : "registration was unsuccefull"});
     }); 
 };
 
@@ -100,7 +100,7 @@ exports.postLogin = (req, res, next) => {
             password : password
         }
     }).then(result => {
-        if(result == null) return res.json({message : "wrong credentials"})
+        if(result == null) return res.status(401).json({message : "wrong credentials"})
         // console.log(result);
         // const email = result.dataValues['email'];
         // console.log(email);
@@ -119,9 +119,9 @@ exports.postLogin = (req, res, next) => {
         });
         // return res.json("nbk");
         // return res.json({accessToken : accessToken, refreshToken : refreshToken});
-        return res.json({accessToken : accessToken});
+        return res.status(200).json({accessToken : accessToken});
     }).catch(err => {
-        return res.json({message : "login credentials didn't match"});
+        return res.status(401).json({message : "login credentials didn't match"});
     });
 }
 

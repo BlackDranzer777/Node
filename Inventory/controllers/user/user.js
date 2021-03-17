@@ -1,14 +1,11 @@
-// const {QueryTypes} = require('sequelize');
 const jwt = require('jsonwebtoken');
-const Menu = require('../../models/user/menu');
-const sequelize = require('../../util/database');
 const {v4 : uuidv4} = require('uuid');
-const crypto = require('crypto');
+// const crypto = require('crypto');
 
 //Models
 const User = require('../../models/user/user');
-const Customer = require('../../models/user/customer');
-const { stat } = require('fs');
+const Employee = require('../../models/user/employee');
+const { stat, access } = require('fs');
 
 
 //API's
@@ -27,24 +24,37 @@ exports.postCreateUser = (req, res, next) => {
     const password = req.body.password;
     const status = 'InActive';
     const token = ''
-    // const hashed_password = crypto.createHash("sha256")
-    // console.log("User_id ===> ", user_id);
-    // console.log("name ===> ", req.body);
-    User.create({
-        user_id : user_id,
-        name : name,
-        email : email,
-        phone_number : phone_number, 
-        age : age,
-        restaurant_name : restaurant_name,
-        password : password,
-        status : status,
-        token : token
+    User.findOne({
+        where : {
+            email : email,
+            password : password
+        }
     }).then(result => {
-        return res.json({message : "Registration was succefully done"});
+        if(result){
+            console.log("Username already exist" + result);
+            return res.json({message : "Username already exist"})
+        }
+        else{
+            User.create({
+                user_id : user_id,
+                name : name,
+                email : email,
+                phone_number : phone_number, 
+                age : age,
+                restaurant_name : restaurant_name,
+                password : password,
+                status : status,
+                token : token
+            }).then(result => {
+                return res.status(201).json({message : "registration was successful"});
+            }).catch(err => {
+                return res.json({message : "registration was unsuccessful"});
+            }); 
+        }
     }).catch(err => {
-        return res.json({message : "Registration was unsuccefull"});
-    }); 
+        return console.log("Error in post createuser" + err)
+    });
+    
 };
 
 exports.getDeleteUser = (req, res, next) => {
@@ -82,9 +92,28 @@ exports.logout = (req,res,next) => {
         where: {
           token: req.body['token']
         }
+    }).then(result => {
+        if(result == 0){
+            Employee.update({
+                token : null,
+                status : "InActive"
+            },{
+                where : {
+                    token : req.body['token']
+                }
+            }).then(result => {
+                return res.sendStatus(204);
+            })
+        }
+        else{
+            return res.sendStatus(204);
+        }
+        
+    }).catch(err => {
+        console.log("error :  In logging out");
+        return res.sendStatus(403);
     });
     // return res.json({message : "Logged out"});
-    return res.sendStatus(204);
         
 }
 
@@ -94,32 +123,52 @@ exports.postLogin = (req, res, next) => {
     const password = req.body['password'];
     console.log(email);
     console.log(password);
+
     User.findOne({
         where : {
             email : email,
             password : password
         }
     }).then(result => {
-        if(result == null) return res.json({message : "wrong credentials"})
-        // console.log(result);
-        // const email = result.dataValues['email'];
-        // console.log(email);
-        const accessToken = generateToken(email);
-        const refreshToken = jwt.sign(email, 'refreshkey');
-
-        //Query
-        User.update({
-            token: refreshToken,
-            status: "Active"
-          }, {
-            where: {
-              email: email
+        if(result == null){
+            console.log("User not found")
+            Employee.findOne({
+                where : {
+                    email : email,
+                    password : password
+                }
+            }).then(result => {
+                if(result == null ) {
+                    return res.status(401).json({message : "wrong credentials"});
+                }
+                else{
+                    const accessToken = generateToken(result.email, result.employee_id, result.role);
+                    Employee.update({
+                        token: accessToken,
+                        status: "Active"
+                      }, {
+                        where: {
+                          email: email
+                        }
+                    });
+                    return res.status(200).json({accessToken : accessToken});
+                }
+            }).catch();
+        }
+        else{
+            const accessToken = generateToken(result.email, result.user_id, result.role);
+            User.update({
+                token: accessToken,
+                status: "Active"
+            }, {
+                where: {
+                email: email
+                }
+            });
+                return res.status(200).json({accessToken : accessToken});
             }
-        });
-        // return res.json("nbk");
-        return res.json({accessToken : accessToken, refreshToken : refreshToken});
     }).catch(err => {
-        return res.json({message : "login credentials didn't match"});
+        return res.status(401).json({message : "login credentials didn't match"});
     });
 }
 
@@ -150,8 +199,8 @@ exports.postRefreshToken = (req,res, next) => {
 }
 
 //Functions
-const generateToken = (userid) => {
-    return jwt.sign({userid : userid}, 'accesskey',  {expiresIn : '30s'});
+const generateToken = (email, user_id, role) => {
+    return jwt.sign({user_name : email, user_id : user_id, role : role}, 'accesskey',  {expiresIn : '7d'});
 }
 
 

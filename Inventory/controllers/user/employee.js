@@ -9,21 +9,29 @@ exports.postNewEmployee = (req, res, next) => {
     const employee_id = uuidv4();
     const employee_name = req.body.employee_name;
     const phone = req.body.phone;
-    const age = req.body.age;
+    // const age = req.body.age;
+    const email = req.body.email;
     const gender = req.body.gender;
     const employee_dob = req.body.employee_dob;
-    const category = req.body.category;
+    const role = req.body.role;
     const outlet_id = req.body.outlet_id;
+    const employee_address = req.body.employee_address;
+    const employee_username = req.body.employee_username;
+    const employee_password = req.body.employee_password;
     console.log("req.body ===> ",req.body);
     Employee.create({
         employee_id : employee_id,
         employee_name : employee_name,
         phone : phone,
-        age : age,
+        // age : age,
+        email : email,
+        employee_address : employee_address,
         gender : gender,
         employee_dob : employee_dob,
-        category : category,
-        outlet_id : outlet_id
+        role : role,
+        outlet_id : outlet_id,
+        employee_username : employee_username,
+        employee_password : employee_password
     }).then(result => {
         return res.json({message : "Employee has been added"});
     }).catch(err => {
@@ -52,7 +60,6 @@ exports.postUpdateEmployee = (req, res, next) => {
     Employee.update({
         phone : phone,
         category : category
-        // outlet_id : outlet_id
     },{
         where : { employee_id : employee_id}
     }).then(result => {

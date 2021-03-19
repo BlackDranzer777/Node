@@ -151,7 +151,7 @@ exports.postLogin = (req, res, next) => {
                           email: email
                         }
                     });
-                    return res.status(200).json({accessToken : accessToken});
+                    return res.status(200).json({accessToken : accessToken, email : result.email, employee_id : result.employee_id, role : result.role, name : result.employee_name});
                 }
             }).catch();
         }
@@ -165,7 +165,7 @@ exports.postLogin = (req, res, next) => {
                 email: email
                 }
             });
-                return res.status(200).json({accessToken : accessToken});
+                return res.status(200).json({accessToken : accessToken, email : result.email, user_id : result.user_id, role : result.role, name : result.name});
             }
     }).catch(err => {
         return res.status(401).json({message : "login credentials didn't match"});

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import * as actionTypes from  '../../store/actions'
 import { Grid, Container, Paper, Button, Typography } from '@material-ui/core';
 import axios from 'axios'
+import { authenticationService } from '../../_services';
 
 
 class Items extends React.Component {
@@ -17,7 +18,7 @@ class Items extends React.Component {
     }
   
     componentDidMount() {
-      axios.post("http://divyansh.zapto.org:3000/menu/fetchmenu", { outlet_id : "ggggggiiiiii" })
+      axios.post("http://localhost:3000/menu/fetchmenu", { outlet_id : authenticationService.currentUserValue.outlet_id })
         .then(
           (result) => {
             this.setState({
@@ -33,6 +34,9 @@ class Items extends React.Component {
             });
           }
         )
+      }
+
+    
         // this.setState({
         //   isLoaded: true,
         //   items:[
@@ -54,10 +58,10 @@ class Items extends React.Component {
 
         //   ]
         // })
-    }
+    
 
     addItem = (item) => {
-      var obj = {id: item.id, name: item.name, quantity:1, price:item.price}
+      var obj = {id: item.item_id, name: item.item_name, quantity:1, price:item.price}
       this.props.addBillingItems(obj)
     }
 
@@ -88,7 +92,7 @@ class Items extends React.Component {
           var filteredItems = items
 
           if (this.props.searchValue != "" && this.props.searchValue != undefined){
-            filteredItems = [...items.filter( item => item.name.toLowerCase().includes(this.props.searchValue.toLowerCase()))]
+            filteredItems = [...items.filter( item => item.item_name.toLowerCase().includes(this.props.searchValue.toLowerCase()))]
           }
 
           if(this.props.categoryValue != "" && this.props.categoryValue != undefined){

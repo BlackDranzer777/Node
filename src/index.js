@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux'   
+import { Provider } from 'react-redux' 
+import axios from 'axios';  
 
 import App from './App';
 import billingItemsReducer from './store/reducers/billingItemsReducer'
@@ -11,6 +12,9 @@ const rootReducer = combineReducers({
   BIR: billingItemsReducer,
   FIR: filteredItemsReducer
 });
+
+// axios.defaults.baseURL = 'http://localhost:3000/';
+// axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 
 // STORE -> Goobalized State
 const store = createStore(rootReducer);

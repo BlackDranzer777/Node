@@ -106,23 +106,23 @@ function Sidebar(props) {
 
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem button className={classes.nested} component={Link} to={'/manage/items'}>
+              <ListItem button className={classes.nested} component={Link} to={'/manage/items'} exact>
                 <ListItemIcon></ListItemIcon>
                 <ListItemText primary={'Menu'} />
               </ListItem>
-              <ListItem button className={classes.nested} component={Link} to={'/manage/restaurants'}>
+              <ListItem button className={classes.nested} component={Link} to={'/manage/restaurants'} exact>
                 <ListItemIcon></ListItemIcon>
                 <ListItemText primary={'Restaurant'} />
               </ListItem>
-              <ListItem button className={classes.nested} component={Link} to={'/manage/outlets'}>
+              <ListItem button className={classes.nested} component={Link} to={'/manage/outlets'} exact>
                 <ListItemIcon></ListItemIcon>
                 <ListItemText primary={'Outlets'} />
               </ListItem>
-              <ListItem button className={classes.nested} component={Link} to={'/manage/employees'}>
+              <ListItem button className={classes.nested} component={Link} to={'/manage/employees'} exact>
                 <ListItemIcon></ListItemIcon>
                 <ListItemText primary={'Employees'} />
               </ListItem>
-              <ListItem button className={classes.nested} component={Link} to={'/manage/customers'}>
+              <ListItem button className={classes.nested} component={Link} to={'/manage/customers'} exact>
                 <ListItemIcon></ListItemIcon>
                 <ListItemText primary={'Customers'} />
               </ListItem>

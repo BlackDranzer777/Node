@@ -85,7 +85,7 @@ class Billing extends React.Component {
                     </TableHead>
                     <TableBody>
                     {this.props.billingItem.map((row) => (
-                        <StyledTableRow key={row.id} >
+                        <StyledTableRow key={row.id}>
                         <StyledTableCell align="left">{row.name}</StyledTableCell>
                         <StyledTableCell align="right">
 
